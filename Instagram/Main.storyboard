@@ -121,16 +121,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="w4j-Yx-xer">
-                                <rect key="frame" x="20" y="20" width="374" height="716"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="w4j-Yx-xer" secondAttribute="trailing" id="LXv-6y-Xzh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="w4j-Yx-xer" secondAttribute="trailing" constant="-20" id="LXv-6y-Xzh"/>
                             <constraint firstItem="Nhq-HZ-qxP" firstAttribute="top" secondItem="w4j-Yx-xer" secondAttribute="bottom" id="YDT-hq-h92"/>
-                            <constraint firstItem="w4j-Yx-xer" firstAttribute="top" secondItem="ogV-RF-7lO" secondAttribute="bottom" id="mkP-vd-MYf"/>
-                            <constraint firstItem="w4j-Yx-xer" firstAttribute="leading" secondItem="LqY-85-dB6" secondAttribute="leadingMargin" id="qrq-Ri-npE"/>
+                            <constraint firstItem="w4j-Yx-xer" firstAttribute="top" secondItem="ogV-RF-7lO" secondAttribute="bottom" constant="-20" id="mkP-vd-MYf"/>
+                            <constraint firstItem="w4j-Yx-xer" firstAttribute="leading" secondItem="LqY-85-dB6" secondAttribute="leadingMargin" constant="-20" id="qrq-Ri-npE"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
@@ -154,8 +154,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tEs-v2-2xW">
-                                <rect key="frame" x="57" y="80" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tEs-v2-2xW">
+                                <rect key="frame" x="57" y="80" width="300" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="o4N-qF-riA"/>
                                 </constraints>
@@ -165,8 +165,8 @@
                                     <action selector="handleLibraryButton:" destination="88y-vs-QzJ" eventType="touchUpInside" id="850-78-ZEx"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eHr-be-uOY">
-                                <rect key="frame" x="57" y="160" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eHr-be-uOY">
+                                <rect key="frame" x="57" y="180" width="300" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="qty-Oc-45h"/>
                                 </constraints>
@@ -175,8 +175,8 @@
                                     <action selector="handleCancelButton:" destination="88y-vs-QzJ" eventType="touchUpInside" id="i8b-aA-OpG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VLh-es-sqj">
-                                <rect key="frame" x="57" y="122" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VLh-es-sqj">
+                                <rect key="frame" x="57" y="130" width="300" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="CSy-ik-ayh"/>
                                 </constraints>
@@ -237,8 +237,8 @@
                                     <action selector="handlePostButton:" destination="9t7-yz-rgl" eventType="touchUpInside" id="YZ1-B7-06t"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILo-my-mhw">
-                                <rect key="frame" x="57" y="248" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILo-my-mhw">
+                                <rect key="frame" x="57" y="248" width="300" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="0yb-Gh-TLC"/>
                                 </constraints>
@@ -284,16 +284,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w6k-IQ-1Vm">
-                                <rect key="frame" x="58" y="100" width="300" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w6k-IQ-1Vm">
+                                <rect key="frame" x="57" y="100" width="300" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="X8h-0t-3qS"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2fw-11-v36">
-                                <rect key="frame" x="57" y="180" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2fw-11-v36">
+                                <rect key="frame" x="57" y="190" width="300" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="Ee2-JP-hnR"/>
                                 </constraints>
@@ -302,8 +302,8 @@
                                     <action selector="handleLogoutButton:" destination="9jr-Di-jDJ" eventType="touchUpInside" id="MMV-pE-EjF"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Var-kJ-4ur">
-                                <rect key="frame" x="57" y="142" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Var-kJ-4ur">
+                                <rect key="frame" x="57" y="140" width="300" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="AZh-QI-lcn"/>
                                 </constraints>
