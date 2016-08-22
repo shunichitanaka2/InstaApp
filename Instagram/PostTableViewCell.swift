@@ -16,6 +16,9 @@ class PostTableViewCell: UITableViewCell,UITableViewDataSource,UITableViewDelega
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var commentTable: UITableView!
+    @IBOutlet weak var commentField: UITextField!
+    @IBOutlet weak var commentButton: UIButton!
+    
     
     var postData: PostData!
     

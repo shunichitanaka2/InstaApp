@@ -19,16 +19,14 @@ class CommentData: NSObject {
     var date:NSDate?
     
     
-    init(snapshot: FIRDataSnapshot,myId:String) {
-        id = snapshot.key
+    init(get_id: String,get_name:String,get_comment:String,get_date:NSTimeInterval) {
+        id = get_id
         
-        let valueDirectory = snapshot.value as! [String: AnyObject]
+        name = get_name
         
-        name = valueDirectory["name"] as? String
+        comment = get_comment
         
-        comment = valueDirectory["comment"] as? String
-        
-        self.date = NSDate(timeIntervalSinceReferenceDate: valueDirectory["time"] as! NSTimeInterval)
+        self.date = NSDate(timeIntervalSinceReferenceDate: get_date)
     }
     
 }

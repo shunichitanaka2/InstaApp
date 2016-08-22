@@ -105,6 +105,8 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="captionLabel" destination="UU0-nD-dha" id="46g-sK-NCH"/>
+                <outlet property="commentButton" destination="U7c-jP-6Vb" id="Vnt-nH-hLy"/>
+                <outlet property="commentField" destination="scp-LA-A9Q" id="VBM-oK-b2D"/>
                 <outlet property="commentTable" destination="BZ8-xM-V2c" id="hRM-S9-NKl"/>
                 <outlet property="dateLabel" destination="4U1-5t-Yfw" id="9gQ-md-ORx"/>
                 <outlet property="likeButton" destination="KDe-wJ-zZE" id="pCf-n3-ufB"/>

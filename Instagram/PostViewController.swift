@@ -31,11 +31,11 @@ class PostViewController: UIViewController {
         let ud = NSUserDefaults.standardUserDefaults()
         
         let name = ud.objectForKey(CommonConst.DisplayNameKey) as? String ?? ""
+        let time = NSDate.timeIntervalSinceReferenceDate()
+        let comment = CommentData(get_id: "a",get_name:"a",get_comment:"a",get_date:time)
 
         
-        let time = NSDate.timeIntervalSinceReferenceDate()
-        
-        let postData = ["caption": textField.text!,"image":imageData!.base64EncodedStringWithOptions(.Encoding64CharacterLineLength),"name":name,"time":time]
+        let postData = ["caption": textField.text!,"image":imageData!.base64EncodedStringWithOptions(.Encoding64CharacterLineLength),"name":name,"time":time,"comment":comment]
         postRef.childByAutoId().setValue(postData)
         
         SVProgressHUD.showSuccessWithStatus("投稿しました")

@@ -80,6 +80,10 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         cell.likeButton.addTarget(self, action: #selector(handleButton(_:event:)), forControlEvents: UIControlEvents.TouchUpInside)
         
+        //cell.commentButton.addTarget(self,action: #selector(commentButton(_:event:)), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        cell.commentField.addTarget(self, action: #selector(commentUP(_:event:)), forControlEvents: UIControlEvents.EditingDidEndOnExit)
+        
         cell.layoutIfNeeded()
         
         return cell
@@ -130,4 +134,76 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
             
         }
     }
+    
+    
+    func commentButton(sender: UIButton, event:UIEvent){
+        let touch = event.allTouches()?.first
+        let point = touch!.locationInView(self.tableView)
+        let indexPath = tableView.indexPathForRowAtPoint(point)
+        
+        let postData = postArray[indexPath!.row]
+        
+        if let uid = FIRAuth.auth()?.currentUser?.uid {
+            
+            
+            let imageString = postData.imageString
+            let name = postData.name
+            let caption = postData.caption
+            let time = (postData.date?.timeIntervalSinceReferenceDate)! as NSTimeInterval
+            let likes = postData.likes
+            let commentData = postData.comment
+            
+            
+            
+            // 辞書を作成してFirebaseに保存する
+            let post = ["caption": caption!, "image": imageString!, "name": name!, "time": time, "likes": likes,"commentData": commentData]
+            let postRef = FIRDatabase.database().reference().child(CommonConst.PostPATH)
+            postRef.child(postData.id!).setValue(post)
+        }
+    }
+    
+    func commentUP(sender: UITextField, event:UIEvent){
+        
+        let text_field = sender
+        
+        let touched_PostData = text_field.superview?.superview as! PostTableViewCell
+        
+        let row = tableView.indexPathForCell(touched_PostData)?.row
+        
+        //let touch = event.allTouches()?.first
+        //let point = touch!.locationInView(self.tableView)
+        //let indexPath = tableView.indexPathForRowAtPoint(point)
+        
+        //let postData = postArray[indexPath!.row]
+        let postData = postArray[row!]
+        
+        //let id = postData.id
+        let imageString = postData.imageString
+        let name = postData.name
+        let caption = postData.caption
+        let time = (postData.date?.timeIntervalSinceReferenceDate)! as NSTimeInterval
+        let likes = postData.likes
+        //let commentData = postData.comment
+            
+        //let commentData = CommentData(snapshot: sender.text, myId: uid)
+        
+        let ud = NSUserDefaults.standardUserDefaults()
+        let comment_name = ud.objectForKey(CommonConst.DisplayNameKey) as? String ?? ""
+        let comment_time = NSDate.timeIntervalSinceReferenceDate()
+        
+        let commentData = CommentData(get_id: "tentative_value",get_name: comment_name ,get_comment: sender.text! ,get_date:comment_time)
+        
+        var commentArray: [CommentData] = postData.comment
+        
+        commentArray.append(commentData)
+            
+            
+        // 辞書を作成してFirebaseに保存する
+        let post = ["caption": caption!, "image": imageString!, "name": name!, "time": time, "likes": likes,"commentData": commentArray]
+        let postRef = FIRDatabase.database().reference().child(CommonConst.PostPATH)
+        postRef.child(postData.id!).setValue(post)
+    }
+    
+    
+    
 }

@@ -35,7 +35,7 @@ class PostData: NSObject {
         
         caption = valueDirectory["caption"] as? String
         
-        //comment = valueDirectory["comment"] as? [String]
+        comment = (valueDirectory["comment"] as? [CommentData])!
         
         
         
