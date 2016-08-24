@@ -18,6 +18,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     var postArray: [PostData] = []
     
     override func viewDidLoad() {
+        LogTrace()
         super.viewDidLoad()
         
         tableView.delegate = self
@@ -26,7 +27,8 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "Cell")
         tableView.rowHeight = UITableViewAutomaticDimension
-        
+        //tableView.rowHeight = 800
+
         FIRDatabase.database().reference().child(CommonConst.PostPATH).observeEventType(.ChildAdded, withBlock: { snapshot in
             
             // PostDataクラスを生成して受け取ったデータを設定する
@@ -41,9 +43,11 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         // 要素が変更されたら該当のデータをpostArrayから一度削除した後に新しいデータを追加してTableViewを再表示する
         FIRDatabase.database().reference().child(CommonConst.PostPATH).observeEventType(.ChildChanged, withBlock: { snapshot in
+            Log("ChildChanged.")
             if let uid = FIRAuth.auth()?.currentUser?.uid {
                 // PostDataクラスを生成して受け取ったデータを設定する
                 let postData = PostData(snapshot: snapshot, myId: uid)
+                
                 
                 // 保持している配列からidが同じものを探す
                 var index: Int = 0
@@ -62,6 +66,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 
                 // TableViewの現在表示されているセルを更新する
                 self.tableView.reloadData()
+                Log("tableView reload.")
             }
         })
         
@@ -74,13 +79,11 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+        LogTrace()
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell",forIndexPath: indexPath) as! PostTableViewCell
         cell.postData = postArray[indexPath.row]
         
         cell.likeButton.addTarget(self, action: #selector(handleButton(_:event:)), forControlEvents: UIControlEvents.TouchUpInside)
-        
-        //cell.commentButton.addTarget(self,action: #selector(commentButton(_:event:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         cell.commentField.addTarget(self, action: #selector(commentUP(_:event:)), forControlEvents: UIControlEvents.EditingDidEndOnExit)
         
@@ -93,7 +96,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         // Auto Layoutを使ってセルの高さを動的に変更する
         return UITableViewAutomaticDimension
     }
-    
+ 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // セルをタップされたら何もせずに選択状態を解除する
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -136,72 +139,54 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
     }
     
     
-    func commentButton(sender: UIButton, event:UIEvent){
-        let touch = event.allTouches()?.first
-        let point = touch!.locationInView(self.tableView)
-        let indexPath = tableView.indexPathForRowAtPoint(point)
-        
-        let postData = postArray[indexPath!.row]
-        
-        if let uid = FIRAuth.auth()?.currentUser?.uid {
-            
-            
-            let imageString = postData.imageString
-            let name = postData.name
-            let caption = postData.caption
-            let time = (postData.date?.timeIntervalSinceReferenceDate)! as NSTimeInterval
-            let likes = postData.likes
-            let commentData = postData.comment
-            
-            
-            
-            // 辞書を作成してFirebaseに保存する
-            let post = ["caption": caption!, "image": imageString!, "name": name!, "time": time, "likes": likes,"commentData": commentData]
-            let postRef = FIRDatabase.database().reference().child(CommonConst.PostPATH)
-            postRef.child(postData.id!).setValue(post)
-        }
-    }
-    
     func commentUP(sender: UITextField, event:UIEvent){
+        LogTrace()
+        let text_field = sender.text
         
-        let text_field = sender
-        
-        let touched_PostData = text_field.superview?.superview as! PostTableViewCell
+        let touched_PostData = sender.superview?.superview as! PostTableViewCell
         
         let row = tableView.indexPathForCell(touched_PostData)?.row
         
-        //let touch = event.allTouches()?.first
-        //let point = touch!.locationInView(self.tableView)
-        //let indexPath = tableView.indexPathForRowAtPoint(point)
-        
-        //let postData = postArray[indexPath!.row]
         let postData = postArray[row!]
         
-        //let id = postData.id
         let imageString = postData.imageString
         let name = postData.name
         let caption = postData.caption
         let time = (postData.date?.timeIntervalSinceReferenceDate)! as NSTimeInterval
         let likes = postData.likes
-        //let commentData = postData.comment
-            
-        //let commentData = CommentData(snapshot: sender.text, myId: uid)
+        
+        var commentIDArray: [String]? = [String]()
+        
+        /*
+        if postData.commentIDArray != nil {
+            commentIDArray = postData.commentIDArray
+        }
+        */
+        
+        commentIDArray = postData.commentIDArray
         
         let ud = NSUserDefaults.standardUserDefaults()
         let comment_name = ud.objectForKey(CommonConst.DisplayNameKey) as? String ?? ""
         let comment_time = NSDate.timeIntervalSinceReferenceDate()
         
-        let commentData = CommentData(get_id: "tentative_value",get_name: comment_name ,get_comment: sender.text! ,get_date:comment_time)
+        //let commentData = CommentData(get_id: "tentative_value",get_name: comment_name ,get_comment: sender.text! ,get_date:comment_time)
         
-        var commentArray: [CommentData] = postData.comment
+        let comment = ["name": comment_name,"time": comment_time,"comment": text_field!]
         
-        commentArray.append(commentData)
-            
-            
+        let commentRef = FIRDatabase.database().reference().child(CommonConst.CommentPATH).childByAutoId()
+        
+        commentRef.setValue(comment)
+        
+        commentIDArray?.append(commentRef.key)
+        
         // 辞書を作成してFirebaseに保存する
-        let post = ["caption": caption!, "image": imageString!, "name": name!, "time": time, "likes": likes,"commentData": commentArray]
+        let post = ["caption": caption!, "image": imageString!, "name": name!, "time": time, "likes": likes,"commentIDArray": commentIDArray!]
+        
         let postRef = FIRDatabase.database().reference().child(CommonConst.PostPATH)
         postRef.child(postData.id!).setValue(post)
+        
+        
+        
     }
     
     

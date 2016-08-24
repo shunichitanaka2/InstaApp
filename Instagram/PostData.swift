@@ -21,9 +21,14 @@ class PostData: NSObject {
     var likes:[String] = []
     var isLiked: Bool = false
     
-    var comment:[CommentData] = []
+    var commentIDArray:[String] = []
     
     init(snapshot: FIRDataSnapshot,myId:String) {
+        LogTrace()
+        guard let value = snapshot.value else {
+            return
+        }
+        Log("postData:"+value.debugDescription)
         id = snapshot.key
         
         let valueDirectory = snapshot.value as! [String: AnyObject]
@@ -35,9 +40,9 @@ class PostData: NSObject {
         
         caption = valueDirectory["caption"] as? String
         
-        comment = (valueDirectory["comment"] as? [CommentData])!
-        
-        
+        if let commentIDArray = valueDirectory["commentIDArray"] as? [String]{
+            self.commentIDArray = commentIDArray
+        }
         
         if let likes = valueDirectory["likes"] as? [String]{
             self.likes = likes

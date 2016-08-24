@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
+
 
 class PostTableViewCell: UITableViewCell,UITableViewDataSource,UITableViewDelegate {
 
@@ -25,6 +29,17 @@ class PostTableViewCell: UITableViewCell,UITableViewDataSource,UITableViewDelega
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        commentTable.delegate = self
+        commentTable.dataSource = self
+        
+        let nib = UINib(nibName: "CommentTableViewCell", bundle: nil)
+        commentTable.registerNib(nib, forCellReuseIdentifier: "CommentTableViewCell")
+        commentTable.rowHeight = UITableViewAutomaticDimension
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        LogTrace()
+        super.init(coder: aDecoder)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -33,8 +48,8 @@ class PostTableViewCell: UITableViewCell,UITableViewDataSource,UITableViewDelega
     }
     
     override func layoutSubviews() {
-        
-        
+        LogTrace()
+        super.layoutSubviews()
         
         postImageView.image = postData.image
         captionLabel.text = "\(postData.name!) : \(postData.caption!)"
@@ -57,28 +72,36 @@ class PostTableViewCell: UITableViewCell,UITableViewDataSource,UITableViewDelega
             likeButton.setImage(buttonImage, forState: UIControlState.Normal)
         }
         
-        super.layoutSubviews()
+        self.commentTable.reloadData()
         
         
     }
     
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        LogTrace()
+        // Auto Layoutを使ってセルの高さを動的に変更する
+        //return 70
+        return UITableViewAutomaticDimension
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return postData.comment.count
+        LogTrace()
+        Log(postData.commentIDArray.count.description)
+        return postData.commentIDArray.count
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell",forIndexPath: indexPath) as! CommentTableViewCell
-        cell.commentData = postData.comment[indexPath.row]
-        
-        //cell.likeButton.addTarget(self, action: #selector(handleButton(_:event:)), forControlEvents: UIControlEvents.TouchUpInside)
-        
+        LogTrace()
+        let cell = tableView.dequeueReusableCellWithIdentifier("CommentTableViewCell",forIndexPath: indexPath) as! CommentTableViewCell
+        cell.setData(postData.commentIDArray[indexPath.row])
         cell.layoutIfNeeded()
-        
         return cell
     }
     
     
-    
+    func getHeight() -> CGFloat {
+        LogTrace()
+        return 1000 + CGFloat((self.postData.commentIDArray.count * 100))
+    }
 }

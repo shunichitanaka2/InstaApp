@@ -24,18 +24,15 @@ class PostViewController: UIViewController {
         
         let imageData = UIImageJPEGRepresentation(imageView.image!, 0.5)
         
-        //let ud = NSUserDefaults.standardUserDefaults()
-        //let name = ud.objectForKey(CommonConst.DisplayNameKey) as! String
-        
         // NSUserDfaultsから表示名を取得する
         let ud = NSUserDefaults.standardUserDefaults()
         
         let name = ud.objectForKey(CommonConst.DisplayNameKey) as? String ?? ""
         let time = NSDate.timeIntervalSinceReferenceDate()
-        let comment = CommentData(get_id: "a",get_name:"a",get_comment:"a",get_date:time)
-
         
-        let postData = ["caption": textField.text!,"image":imageData!.base64EncodedStringWithOptions(.Encoding64CharacterLineLength),"name":name,"time":time,"comment":comment]
+        let commentArray: [CommentData] = []
+        
+        let postData = ["caption": textField.text!,"image":imageData!.base64EncodedStringWithOptions(.Encoding64CharacterLineLength),"name":name,"time":time,"comment":commentArray]
         postRef.childByAutoId().setValue(postData)
         
         SVProgressHUD.showSuccessWithStatus("投稿しました")

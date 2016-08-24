@@ -19,14 +19,24 @@ class CommentData: NSObject {
     var date:NSDate?
     
     
-    init(get_id: String,get_name:String,get_comment:String,get_date:NSTimeInterval) {
-        id = get_id
+    init(snapshot: FIRDataSnapshot) {
+        LogTrace()
+        id = snapshot.key
+        guard let value = snapshot.value else {
+            Log("value is nil")
+            return
+        }
+        if let valueDirectory = snapshot.value as? [String: AnyObject] {
+            name = valueDirectory["name"] as? String
+            
+            comment = valueDirectory["comment"] as? String
+            
+            if let time = valueDirectory["time"] as? NSTimeInterval {
+                self.date = NSDate(timeIntervalSinceReferenceDate:time)
+            }
+        } else {
+            Log("comment:"+value.debugDescription)
+        }
         
-        name = get_name
-        
-        comment = get_comment
-        
-        self.date = NSDate(timeIntervalSinceReferenceDate: get_date)
     }
-    
 }
