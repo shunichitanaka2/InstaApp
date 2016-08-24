@@ -110,6 +110,7 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         let postData = postArray[indexPath!.row]
         
+        
         if let uid = FIRAuth.auth()?.currentUser?.uid{
             if postData.isLiked{
                 var index = -1
@@ -131,7 +132,10 @@ class HomeViewController: UIViewController,UITableViewDataSource,UITableViewDele
             let time = (postData.date?.timeIntervalSinceReferenceDate)! as NSTimeInterval
             let likes = postData.likes
             
-            let post = ["caption":caption!,"image": imageString!,"name": name!,"time":time,"likes":likes]
+            var commentIDArray: [String]? = [String]()
+            commentIDArray = postData.commentIDArray
+            
+            let post = ["caption":caption!,"image": imageString!,"name": name!,"time":time,"likes":likes,"commentIDArray": commentIDArray!]
             let postRef = FIRDatabase.database().reference().child(CommonConst.PostPATH)
             postRef.child(postData.id!).setValue(post)
             
